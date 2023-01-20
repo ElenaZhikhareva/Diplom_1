@@ -1,7 +1,6 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import praktikum.Bun;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
 
@@ -9,8 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class IngredientTypeTest {
-    private IngredientType type;
-    private Ingredient ingredient;
+    private final IngredientType type;
 
 
     public IngredientTypeTest(IngredientType type) {
@@ -24,8 +22,8 @@ public class IngredientTypeTest {
     }
 
     @Test
-    public void getIngredientTypeTest(){
-        ingredient = new Ingredient(type,"батон", 12);
+    public void getIngredientTypeTest() {
+        Ingredient ingredient = new Ingredient(type, "батон", 12);
         assertEquals(type, ingredient.getType());
     }
 }
