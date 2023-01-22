@@ -9,8 +9,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class IngredientTypeTest {
     private final IngredientType type;
-
-
     public IngredientTypeTest(IngredientType type) {
         this.type = type;
     }
