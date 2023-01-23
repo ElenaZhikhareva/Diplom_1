@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -18,27 +19,31 @@ public class BurgerTest {
     @Mock
     Ingredient ingredientMock;
     @Mock
-    Burger burgerMock;
+    Ingredient ingredientMockTwo;
+    Burger burger = new Burger();
+    List<Ingredient> ingredients = burger.ingredients;
 
     @Test
     public void addIngredientTest() {
-        Database database = new Database();
-        List<Ingredient> ingredients = database.availableIngredients();
-        burgerMock.addIngredient(ingredients.get(2));
-        Mockito.verify(burgerMock).addIngredient(Mockito.any());
+        burger.addIngredient(ingredientMock);
+        Assert.assertEquals(1, ingredients.size());
     }
 
     @Test
     public void removeIngredientTest() {
-        burgerMock.removeIngredient(1);
-        burgerMock.removeIngredient(2);
-        Mockito.verify(burgerMock, Mockito.times(2)).removeIngredient(Mockito.anyInt());
+        burger.addIngredient(ingredientMockTwo);
+        Assert.assertEquals(1, ingredients.size());
+        burger.removeIngredient(0);
+        Assert.assertTrue(ingredients.isEmpty());
     }
 
     @Test
     public void moveIngredientTest() {
-        burgerMock.moveIngredient(1, 3);
-        Mockito.verify(burgerMock, Mockito.times(1)).moveIngredient(1, 3);
+        burger.addIngredient(ingredientMock);
+        burger.addIngredient(ingredientMockTwo);
+        Assert.assertEquals(2, ingredients.size());
+        burger.moveIngredient(1, 0);
+        Assert.assertEquals(ingredientMockTwo, ingredients.get(0));
     }
 
     @Test
@@ -62,7 +67,11 @@ public class BurgerTest {
         when(ingredientMock.getType()).thenReturn(IngredientType.FILLING);
         when(ingredientMock.getName()).thenReturn("sausage");
         when(ingredientMock.getPrice()).thenReturn(300F);
-        String receipt = burger.getReceipt();
-        assertFalse(receipt.isEmpty());
+        String receipt = String.format("(==== %s ====)%n", bunMock.getName()) + String.format("= %s %s =%n", ingredientMock.getType().toString().toLowerCase(), ingredientMock.getName()) +
+                String.format("(==== %s ====)%n", bunMock.getName()) +
+                String.format("%nPrice: %f%n", burger.getPrice());
+        System.out.println(receipt);
+        System.out.println(burger.getReceipt());
+        assertEquals(burger.getReceipt(), receipt);
     }
 }
